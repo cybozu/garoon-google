@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="filename">$${ctx:filepath}/GGsync.log</Property>
+		<Property name="filepattern">$${ctx:filepath}/GGsync-%d{yyyyMMdd}.log</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout>
+				<Pattern>%-5level %d{HH:mm:ss} %msg%n%ex{short}</Pattern>
+			</PatternLayout>
+		</Console>
+		<Routing name="RoutingAppender">
+			<Routes pattern="$${ctx:filepath}">
+				<Route>
+					<RollingFile name="GGsync.log" fileName="${filename}"
+							filePattern="${filepattern}">
+						<PatternLayout>
+							<Pattern>%-5level %d{yyyy/MM/dd HH:mm:ss}(%c{1}:%M:%L) %msg%n%ex{full}</Pattern>
+						</PatternLayout>
+						<SizeBasedTriggeringPolicy size="10MB" />
+					</RollingFile>
+				</Route>
+				<Route ref="Console" key="${ctx:filepath}"/>
+			</Routes>
+		</Routing>
+	</Appenders>
+	<Loggers>
+		<Root level="error">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="RoutingAppender"/>
+		</Root>
+		<Logger name="com" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="RoutingAppender"/>
+		</Logger>
+	</Loggers>
+</Configuration>
