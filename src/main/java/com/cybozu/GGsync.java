@@ -410,7 +410,11 @@ public class GGsync {
 					LOGGER.info("[DEL for deleted garoon schedule] GoogleId:{}", tid);
 				}
 
-				googleCalendar.delSchedule(tid);
+				try {
+					googleCalendar.delSchedule(tid);
+				} catch (GoogleJsonResponseException e) {
+					LOGGER.info("[FAILED] google schedule is already deleted. GoogleId:{}, Message:{}", tid, e.getMessage());
+				}
 				ggsyncDb.delScheduleInfoByGoogleId(tid);
 			}
 
