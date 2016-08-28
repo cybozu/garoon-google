@@ -38,7 +38,7 @@ import com.cybozu.garoon3.schedule.RepeatInfo;
 import com.cybozu.garoon3.schedule.Span;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
-
+import com.cybozu.GoogleCalendar.CredentialConfig.AuthType;
 
 public class GGsync {
 	private static final String GGSYNC_TABLE_NAME = "ggsync";
@@ -89,8 +89,11 @@ public class GGsync {
 
 
 
+			String googleAuthType = ggsyncProperties.getGoogleOauthType();
 			String googleOauthMail = ggsyncProperties.getGoogleOauthMail();
 			String googleOauthP12key = ggsyncProperties.getGoogleOauthP12key();
+			String googleCredentialFile = ggsyncProperties.getGoogleOauthCredentialFile();
+			String googleCredentialStoreDir = ggsyncProperties.getGoogleOauthStoreDir();
 			String googleCalendarId = ggsyncProperties.getGoogleCalendarId();
 			String googleCalendarNormalColor = ggsyncProperties.getGoogleCalendarNormalColor();
 			String googleCalendarBannerColor = ggsyncProperties.getGoogleCalendarBannerColor();
@@ -103,8 +106,11 @@ public class GGsync {
 			Date syncEndDateUtc = ggsyncProperties.getSyncEndDateUtc();
 			Integer garoonMemberLimit = ggsyncProperties.getGaroonMemberLimit();
 
+			LOGGER.debug("グーグルカレンダーの認証方式: " + googleAuthType);
 			LOGGER.debug("サービスアカウントのメールアドレス: " + googleOauthMail);
 			LOGGER.debug("サービスアカウントのP12キーファイルの絶対パス: " + googleOauthP12key);
+			LOGGER.debug("OAuth2のclient_idファイルの絶対パス: " + googleCredentialFile);
+			LOGGER.debug("OAuth2の認証情報保存先の絶対パス: " + googleCredentialStoreDir);
 			LOGGER.debug("グーグルカレンダーID: " + googleCalendarId);
 			LOGGER.debug("グーグルカレンダーに登録する通常予定の色: " + googleCalendarNormalColor);
 			LOGGER.debug("グーグルカレンダーに登録する期間予定の色: " + googleCalendarBannerColor);
@@ -114,6 +120,13 @@ public class GGsync {
 			LOGGER.debug("SYNC対象の開始時間: " + syncStartDate);
 			LOGGER.debug("SYNC対象の終了時間: " + syncEndDate);
 
+			GoogleCalendar.CredentialConfig config =
+					new GoogleCalendar.CredentialConfig();
+			config.setAuthType(AuthType.valueOf(googleAuthType));
+			config.setMail(googleOauthMail);
+			config.setP12key(googleOauthP12key);
+			config.setCredentialFile(googleCredentialFile);
+			config.setCredentialStoreDir(googleCredentialStoreDir);
 
 
 			/** SQLiteの利用設定 **/
@@ -135,7 +148,7 @@ public class GGsync {
 			/** ガルーンから削除されたスケジュールをグーグルカレンダーからも削除するために利用 **/
 			ArrayList<Integer> garoonScheduleIdList = new ArrayList<Integer>();
 
-			GoogleCalendar googleCalendar = new GoogleCalendar(googleOauthMail, googleOauthP12key);
+			GoogleCalendar googleCalendar = new GoogleCalendar(config);
 			googleCalendar.setCalendarName(googleCalendarId);
 
 

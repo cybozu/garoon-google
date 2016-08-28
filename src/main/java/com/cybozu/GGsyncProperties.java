@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.Properties;
 
 public class GGsyncProperties {
-	private String GOOGLE_OAUTH_MAIL, GOOGLE_OAUTH_P12KEY, GOOGLE_CALENDAR_ID;
+	private String GOOGLE_OAUTH_TYPE, GOOGLE_CALENDAR_ID;
+	private String GOOGLE_OAUTH_MAIL, GOOGLE_OAUTH_P12KEY;
+	private String GOOGLE_OAUTH_CREDENTIAL_FILE, GOOGLE_OAUTH_STORE_DIR;
 	private String GOOGLE_CALENDAR_NORMAL_COLOR, GOOGLE_CALENDAR_BANNER_COLOR;
 	private String GAROON_URL, GAROON_ACCOUNT, GAROON_PASSWORD;
 	private String EXECUTION_LEVEL;
@@ -23,8 +25,14 @@ public class GGsyncProperties {
 			FileInputStream fis = new FileInputStream(file);
 			prop.load(new InputStreamReader(fis, "UTF-8"));
 
+			this.GOOGLE_OAUTH_TYPE = prop.getProperty("google.oauth.type", "").trim();
+			if (this.GOOGLE_OAUTH_TYPE.isEmpty()) {
+				this.GOOGLE_OAUTH_TYPE = GoogleCalendar.CredentialConfig.AuthType.P12KEY.name();
+			}
 			this.GOOGLE_OAUTH_MAIL = prop.getProperty("google.oauth.mail").trim();
 			this.GOOGLE_OAUTH_P12KEY = prop.getProperty("google.oauth.p12key").trim();
+			this.GOOGLE_OAUTH_CREDENTIAL_FILE = prop.getProperty("google.oauth.credential.file", "").trim();
+			this.GOOGLE_OAUTH_STORE_DIR = prop.getProperty("google.oauth.credential.storedir", "").trim();
 			this.GOOGLE_CALENDAR_ID = prop.getProperty("google.calendar.id").trim();
 			this.GOOGLE_CALENDAR_NORMAL_COLOR = prop.getProperty("google.calendar.normal.color", "5").trim();
 			this.GOOGLE_CALENDAR_BANNER_COLOR = prop.getProperty("google.calendar.banner.color", "7").trim();
@@ -54,12 +62,24 @@ public class GGsyncProperties {
 		}
 	}
 
+	public String getGoogleOauthType() {
+		return GOOGLE_OAUTH_TYPE;
+	}
+
 	public String getGoogleOauthMail() {
 		return this.GOOGLE_OAUTH_MAIL;
 	}
 
 	public String getGoogleOauthP12key() {
 		return this.GOOGLE_OAUTH_P12KEY;
+	}
+
+	public String getGoogleOauthCredentialFile() {
+		return GOOGLE_OAUTH_CREDENTIAL_FILE;
+	}
+
+	public String getGoogleOauthStoreDir() {
+		return GOOGLE_OAUTH_STORE_DIR;
 	}
 
 	public String getGoogleCalendarId() {
