@@ -25,3 +25,8 @@ See also https://cybozudev.zendesk.com/hc/ja/articles/204426680
 ```sh
 $ java -jar GGsync.jar .
 ```
+
+with secure access
+```sh
+$ java -Djavax.net.ssl.keyStore=xxxx.pfx -Djavax.net.ssl.keyStorePassword=xxxx -Djavax.net.ssl.keyStoreType=PKCS12 -jar GGsync.jar .
+```
