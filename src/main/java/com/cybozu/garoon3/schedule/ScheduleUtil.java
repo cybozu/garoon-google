@@ -51,7 +51,7 @@ public class ScheduleUtil {
 	 * @param input
 	 * @return 予定一覧
 	 */
-	public static List<Event> getEventList( OMElement input )
+	public static List<Event> getEventList( OMElement input, Integer apiVersion )
 	{
 		List<Event> events = new ArrayList<Event>();
 
@@ -140,7 +140,7 @@ public class ScheduleUtil {
 			event.setSpans( getSpanList(eventNode, timezone) );
 			event.setFollows( getFollowList(eventNode, inputString, timezone) );
 			event.setCustomer( getCustomer(eventNode) );
-			event.setObservers( getObserverList(eventNode) );
+			event.setObservers( getObserverList(eventNode, apiVersion) );
 			events.add( event );
 			//System.out.println(event);
 		}
@@ -358,35 +358,45 @@ public class ScheduleUtil {
 		return customer;
 	}
 
-	private static List<Observer> getObserverList( Node eventNode )
-	{
+	private static List<Observer> getObserverList(Node eventNode, Integer apiVersion) {
 		NodeList children = eventNode.getChildNodes();
 
 		Node observersNode = null;
-		for( int i=0; i<children.getLength(); i++)
-			if( children.item(i).getNodeName().equals("observers") )
+		for (int i = 0; i < children.getLength(); i++) {
+			if (children.item(i).getNodeName().equals("observers")) {
 				observersNode = children.item(i);
+			}
+		}
 
-		if( observersNode == null )
+		if (observersNode == null) {
 			return Collections.emptyList();
+		}
 
 		children = observersNode.getChildNodes();
 		List<Observer> observers = new ArrayList<Observer>();
-		for( int i=0; i<children.getLength(); i++ )
-		{
-			if( !children.item(i).getNodeName().equals("observer") )
+		for (int i = 0; i < children.getLength(); i++) {
+			if (!children.item(i).getNodeName().equals("observer")) {
 				continue;
+			}
 
 			Node observerNode = children.item(i);
 
-			int id = Integer.valueOf( getAttribute(observerNode, "id" ));
-			int order = Integer.valueOf( getAttribute(observerNode, "order"));
+			Integer observerId, observerOrder;
+			// APIバージョン180から構成が変わったため
+			if (apiVersion >= 180) {
+				Node c = observerNode.getChildNodes().item(1);
+				observerId = Integer.valueOf(getAttribute(c, "id" ));
+				observerOrder = Integer.valueOf(getAttribute(c, "order"));
+			} else {
+				observerId = Integer.valueOf(getAttribute(observerNode, "id" ));
+				observerOrder = Integer.valueOf(getAttribute(observerNode, "order"));
+			}
 
 			Observer observer = new Observer();
-			observer.setID( id );
-			observer.setOrder( order );
+			observer.setID(observerId);
+			observer.setOrder(observerOrder);
 
-			observers.add( observer );
+			observers.add(observer);
 		}
 
 		return observers;

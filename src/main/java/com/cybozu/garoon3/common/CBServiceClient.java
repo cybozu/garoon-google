@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -14,7 +16,15 @@ import org.apache.axis2.Constants;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.context.MessageContext;
+import org.apache.axis2.context.OperationContext;
+import org.apache.axis2.wsdl.WSDLConstants;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 
@@ -163,6 +173,20 @@ public class CBServiceClient {
 
         return result;
     }
+
+	public Integer getApiVersion() throws Exception {
+		String header = this.serviceClient.getLastOperationContext()
+			.getMessageContext(WSDLConstants.MESSAGE_LABEL_IN_VALUE).getEnvelope().getHeader().toString();
+
+		InputStream stream = new ByteArrayInputStream(header.toString().getBytes());
+		Document document= DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
+		NodeList nodes = document.getElementsByTagName("apiversion");
+		String apiVersion = nodes.item(0).getTextContent();
+
+		// 特定バージョン以降で分岐させたいのでif文で使える形式で返す
+		String apiNumber = apiVersion.replace(".", "");
+		return Integer.parseInt(apiNumber);
+	}
 
     private OMElement getRequest(Action action) {
         OMElement request = this.omFactory.createOMElement(action.getActionName(), this.omNs);

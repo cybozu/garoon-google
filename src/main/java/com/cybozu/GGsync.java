@@ -161,6 +161,7 @@ public class GGsync {
 			baseGetUsers.addLoginName(garoonAccount);
 			OMElement garoonUserInfo = cbClient.sendReceive(baseGetUsers);
 			garoonUid = garoonSchedular.getUid(garoonUserInfo);
+			Integer apiVersion = cbClient.getApiVersion();
 
 			/** ガルーンのスケジュールを取得 **/
 			ScheduleGetEventsByTarget scheduleGetEvents = new ScheduleGetEventsByTarget();
@@ -171,7 +172,7 @@ public class GGsync {
 			scheduleGetEvents.setMember(MemberType.USER, garoonUid);
 
 			OMElement scheduleEvents = cbClient.sendReceive(scheduleGetEvents);
-			List<com.cybozu.garoon3.schedule.Event> garoonSchedules = ScheduleUtil.getEventList(scheduleEvents);
+			List<com.cybozu.garoon3.schedule.Event> garoonSchedules = ScheduleUtil.getEventList(scheduleEvents, apiVersion);
 			for (Iterator<com.cybozu.garoon3.schedule.Event> i = garoonSchedules.iterator(); i.hasNext();) {
 				int garoonScheduleId;
 				String googleScheduleId, scheduleTitle, scheduleLocation = "", scheduleColor = "1";
