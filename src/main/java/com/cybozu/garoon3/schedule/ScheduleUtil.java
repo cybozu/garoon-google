@@ -310,7 +310,14 @@ public class ScheduleUtil {
 				date = parseWhenDatetime( getAttribute(c, "date"), timezone );
 			} catch (ParseException e) {
 			}
-			int userId = Integer.valueOf( getAttribute(c, "user_id") );
+
+			// 削除されたユーザーの場合、user_idが取得できないので0をセットする
+			int userId = 0;
+			try {
+				userId = Integer.valueOf( getAttribute(c, "user_id") );
+			} catch (NumberFormatException e) {
+			}
+
 			String name = getAttribute(c, "name");
 
 			Follow follow = new Follow();
