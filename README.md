@@ -42,4 +42,4 @@ MIT
 
 ## Copyright
 
-Copyright(c) Cybozu, Inc.
+Copyright(c) 2015 Cybozu, Inc.
