@@ -35,3 +35,11 @@ with proxy
 ```sh
 $ java -Dhttp.proxyHost=ホスト名 -Dhttp.proxyPort=ポート番号 -Dhttps.proxyHost=ホスト名 -Dhttps.proxyPort=ポート番号 -jar GGsync.jar .
 ```
+
+## License
+
+MIT
+
+## Copyright
+
+Copyright(c) Cybozu, Inc.

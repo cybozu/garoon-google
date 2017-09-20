@@ -1,3 +1,9 @@
+/*
+* garoon-google
+* Copyright (c) 2015 Cybozu
+*
+* Licensed under the MIT License
+*/
 package com.cybozu.garoon3.schedule;
 /**
  * 予定の参加者の種別を表す列挙体です。

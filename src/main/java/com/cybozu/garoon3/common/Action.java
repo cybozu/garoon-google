@@ -1,3 +1,9 @@
+/*
+* garoon-google
+* Copyright (c) 2015 Cybozu
+*
+* Licensed under the MIT License
+*/
 package com.cybozu.garoon3.common;
 
 import org.apache.axiom.om.OMElement;
