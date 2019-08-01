@@ -19,7 +19,7 @@ $ cp ./src/main/resources/GGsync.properties .
 
 and rewrite GGsync.properties.
 
-See also https://cybozudev.zendesk.com/hc/ja/articles/204426680
+See also https://developer.cybozu.io/hc/ja/articles/204426680
 
 ### 3.Synchronize
 ```sh
