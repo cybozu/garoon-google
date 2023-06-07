@@ -12,3 +12,4 @@ GGsync.db
 GGsync.jar
 GGsync.log
 *.p12
+*.pfx
