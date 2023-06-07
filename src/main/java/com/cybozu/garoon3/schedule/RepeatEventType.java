@@ -18,6 +18,10 @@ public enum RepeatEventType {
 	WEEKDAY,
 	/** 毎週 **/
 	WEEK,
+	/** 2週間ごと **/
+	ONCE_EVERY_TWO_WEEKS,
+	/** 3週間ごと **/
+	ONCE_EVERY_THREE_WEEKS,
 	/** 毎月第一週 **/
 	WEEK_1ST,
 	/** 毎月第二週 **/

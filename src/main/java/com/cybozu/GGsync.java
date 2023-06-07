@@ -320,6 +320,12 @@ public class GGsync {
 					case WEEKDAY: /** 毎日（土日を除く） **/
 						recurrenceList.add(googleCalendar.getRecurrenceListWeekday(until));
 						break;
+					case ONCE_EVERY_TWO_WEEKS: /** 2週間ごと **/
+					  recurrenceList.add(googleCalendar.getRecurrenceListOnceEveryTwoWeeks(until, repeatInfo.getWeek()));
+						break;
+					case ONCE_EVERY_THREE_WEEKS: /** 3週間ごと **/
+					  recurrenceList.add(googleCalendar.getRecurrenceListOnceEveryThreeWeeks(until, repeatInfo.getWeek()));
+						break;
 					case WEEK_1ST: /** 毎月第一週 **/
 						recurrenceList.add(googleCalendar.getRecurrenceList1stweek(until, repeatInfo.getWeek()));
 						break;

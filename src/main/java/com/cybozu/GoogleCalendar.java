@@ -107,6 +107,14 @@ public class GoogleCalendar {
 		return "RRULE:FREQ=WEEKLY;UNTIL=" + this.RECURRENCE_SDF.format(end);
 	}
 
+	public String getRecurrenceListOnceEveryTwoWeeks(Date end, int num) {
+		return "RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=" + this.getWday(num) + ";UNTIL=" + this.RECURRENCE_SDF.format(end);
+	}
+
+	public String getRecurrenceListOnceEveryThreeWeeks(Date end, int num) {
+		return "RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=" + this.getWday(num) + ";UNTIL=" + this.RECURRENCE_SDF.format(end);
+	}
+
 	public String getRecurrenceList1stweek(Date end, int num) {
 		return "RRULE:FREQ=MONTHLY;BYDAY=1" + this.getWday(num) + ";UNTIL=" + this.RECURRENCE_SDF.format(end);
 	}

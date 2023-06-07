@@ -171,7 +171,11 @@ public class ScheduleUtil {
 		Node conditionNode = repeatInfoNode.getChildNodes().item(1);
 
 		String repeatEventType = getAttribute(conditionNode, "type").toUpperCase();
-		if (repeatEventType.equals("1STWEEK")) {
+		if (repeatEventType.equals("ONCE_EVERY_TWO_WEEKS")) {
+			info.setType(RepeatEventType.ONCE_EVERY_TWO_WEEKS);
+		} else if (repeatEventType.equals("ONCE_EVERY_THREE_WEEKS")) {
+			info.setType(RepeatEventType.ONCE_EVERY_THREE_WEEKS);
+		} else if (repeatEventType.equals("1STWEEK")) {
 			info.setType(RepeatEventType.WEEK_1ST);
 		}
 		else if (repeatEventType.equals("2NDWEEK")) {
